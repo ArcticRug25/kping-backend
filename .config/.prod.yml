@@ -1,0 +1,14 @@
+DB:
+  type: mysql
+  host: localhost
+  name: root
+  password: wyw123456
+  database: test
+  synchronize: true
+  port: 3306
+
+LOG:
+  on: true
+  level: info
+
+SECRET: ArcticRug25
