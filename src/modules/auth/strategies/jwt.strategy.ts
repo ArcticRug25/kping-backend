@@ -6,12 +6,11 @@ import { ExtractJwt, Strategy } from 'passport-jwt'
 @Injectable()
 export default class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(configService: ConfigService) {
-    // const tokenConfig: ITokenConfig = configService.get()
     super({
       // 解析用户提交的 Bearer Token header 数据w
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       // 加密码的 secret
-      secretOrKey: 'a',
+      secretOrKey: 'tokenConfig',
     })
   }
   async validate({ sub: id }) {
