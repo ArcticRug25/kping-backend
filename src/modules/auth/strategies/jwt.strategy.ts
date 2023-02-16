@@ -1,24 +1,20 @@
-import { Injectable } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
+import { ConfigService } from '@nestjs/config'
+import { ConfigEnum } from '../../../enum/config.enum'
+import { Injectable } from '@nestjs/common'
 
 @Injectable()
-export default class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor(configService: ConfigService) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+  constructor(protected configService: ConfigService) {
     super({
-      // 解析用户提交的 Bearer Token header 数据w
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      // 加密码的 secret
-      secretOrKey: 'tokenConfig',
+      ignoreExpiration: false,
+      secretOrKey: configService.get(ConfigEnum.SECRET),
     })
   }
-  async validate({ sub: id }) {
-    // const user = await this.prisma.user.findUnique({
-    //   where: {
-    //     id,
-    //   },
-    // })
-    // return user
+
+  async validate(payload: any) {
+    return { userId: payload.sub, username: payload.username }
   }
 }

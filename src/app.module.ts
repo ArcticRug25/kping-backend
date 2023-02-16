@@ -7,6 +7,7 @@ import { getConfig } from './utils/config'
 import { UserModule } from './modules/user/user.module'
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { connectionParams } from '../ormconfig'
+import { AuthModule } from './modules/auth/auth.module'
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { connectionParams } from '../ormconfig'
     TypeOrmModule.forRoot(connectionParams as TypeOrmModuleOptions),
     LogsModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

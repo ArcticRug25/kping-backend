@@ -3,8 +3,8 @@ DB:
   host: localhost
   name: root
   password: wyw123456
-  database: test
-  synchronize: true
+  database: kping_custom_test
+  synchronize: false
   port: 3306
 
 LOG:

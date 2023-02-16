@@ -1,29 +1,40 @@
-// import { UserService } from './../user/user.service'
-import { Injectable } from '@nestjs/common'
+import { ForbiddenException, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { verify } from 'argon2'
+import argon2 from 'argon2'
+import { UserService } from '../user/user.service'
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService) {}
-  // private readonly userService: UserService
-  async validateUser(username: string, pass: string): Promise<any> {
-    // const user = await this.userService.findUser(username)
-    // if (user && (await verify(user.password, pass))) {
-    //   const { password, ...result } = user
-    //   return result
-    // }
+  constructor(private readonly jwtService: JwtService, private readonly userService: UserService) {}
 
-    // 验证失败返回 null (失败定义为用户没有找到，或者在使用 Passport-local 的情况下，密码不匹配)。
-    return null
+  async signin(username: string, password: string) {
+    const user = await this.userService.find(username)
+    if (!user) {
+      throw new ForbiddenException('用户不存在，请注册')
+    }
+
+    const isPasswordValid = await argon2.verify(user.password, password)
+    if (!isPasswordValid) {
+      throw new ForbiddenException('用户名或者密码错误')
+    }
+
+    return await this.jwtService.signAsync({
+      username: user.username,
+      sub: user.id,
+    })
   }
 
-  async getToken({ id, username }) {
-    return {
-      access_token: await this.jwtService.signAsync({
-        username,
-        sub: id,
-      }),
+  async signup(username: string, password: string) {
+    const user = await this.userService.find(username)
+    if (user) {
+      throw new ForbiddenException('用户已存在')
     }
+
+    const res = await this.userService.create({
+      username,
+      password,
+    })
+
+    return res
   }
 }

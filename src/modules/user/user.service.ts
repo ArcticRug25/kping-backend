@@ -1,15 +1,26 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Body } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
+import { User } from './entities/user.entity'
+import argon2 from 'argon2'
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user'
+  constructor(@InjectRepository(User) private readonly userRepo: Repository<User>) {}
+  async create(@Body() createUserDto: CreateUserDto) {
+    const userTpl = await this.userRepo.create(createUserDto)
+    userTpl.password = await argon2.hash(userTpl.password)
+    return await this.userRepo.save(userTpl)
   }
 
   findAll() {
-    return `This action returns all user`
+    return this.userRepo.find()
+  }
+
+  find(username: string) {
+    return this.userRepo.findOne({ where: { username } })
   }
 
   findOne(id: number) {

@@ -4,7 +4,7 @@ import { readFileSync } from 'fs'
 
 // 获取项目运行环境
 export const getEnv = () => {
-  return process.env.NODE_ENV
+  return process.env.NODE_ENV || 'dev'
 }
 
 // 读取项目配置

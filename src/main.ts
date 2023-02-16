@@ -27,18 +27,16 @@ async function bootstrap() {
   )
 
   // 全局管道
-  app.useGlobalPipes(new CustomValidate())
-
-  const logger = new Logger()
-  const httpAdapter = app.get(HttpAdapterHost)
-  app.useGlobalFilters(new AllExceptionFilter(logger, httpAdapter), new HttpExceptionFilter(logger))
-
   app.useGlobalPipes(
-    new ValidationPipe({
+    new CustomValidate({
       // 去除在类上不存在的内容
       whitelist: true,
     }),
   )
+
+  const logger = new Logger()
+  const httpAdapter = app.get(HttpAdapterHost)
+  app.useGlobalFilters(new AllExceptionFilter(logger, httpAdapter), new HttpExceptionFilter(logger))
 
   app.useGlobalInterceptors(new TransformInterceptor(), new ClassSerializerInterceptor(app.get(Reflector)))
 

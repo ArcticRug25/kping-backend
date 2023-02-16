@@ -19,7 +19,13 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "typeorm-ts-node-commonjs"
+    "generate:modles": "typeorm-model-generator -h 127.0.0.1 -p 3306 -d test -u root -x wyw123456 -e mysql -o ./src/entities",
+    "typeorm": "typeorm-ts-node-commonjs -d ./ormconfig.ts",
+    "migration:generate": "f() { pnpm run typeorm migration:generate -p \"./migrations/$@\"; }; f",
+    "migration:create": "typeorm-ts-node-commonjs migration:create",
+    "migration:run": "pnpm run typeorm migration:run",
+    "migration:revert": "pnpm run typeorm migration:revert",
+    "schema:drop": "pnpm run typeorm schema:drop"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -74,6 +80,7 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "4.0.0",
+    "typeorm-model-generator": "^0.4.6",
     "typescript": "^4.3.5"
   },
   "jest": {
