@@ -2,6 +2,7 @@ export enum ConfigEnum {
   DB = 'DB',
   LOG = 'LOG',
   SECRET = 'SECRET',
+  CAPTCHA = 'CAPTCHA',
 }
 
 export enum DBConfigEnum {
@@ -19,4 +20,12 @@ export enum RedisConfigEnum {
   port = 'port',
   password = 'password',
   db = 'db',
+}
+
+export enum CaptchaEnum {
+  size = 'size',
+  fontSize = 'fontSize',
+  width = 'width',
+  height = 'height',
+  background = 'background',
 }

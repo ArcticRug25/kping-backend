@@ -12,9 +12,24 @@ import CustomValidate from './common/validate/custom.validate'
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard'
 import { TransformInterceptor } from './common/interceptors/transform.interceptor'
 import { NestExpressApplication } from '@nestjs/platform-express'
+import session from 'express-session'
+import { getConfig } from './utils/config'
+import { ConfigEnum } from './enum/config.enum'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
+
+  // session设置
+  app.use(
+    session({
+      secret: getConfig(ConfigEnum.SECRET),
+      name: 'kping.customer',
+      rolling: true,
+      cookie: {
+        maxAge: null,
+      },
+    }),
+  )
 
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER))
 
