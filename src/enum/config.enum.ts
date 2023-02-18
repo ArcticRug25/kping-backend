@@ -13,3 +13,10 @@ export enum DBConfigEnum {
   synchronize = 'synchronize',
   port = 'port',
 }
+
+export enum RedisConfigEnum {
+  host = 'host',
+  port = 'port',
+  password = 'password',
+  db = 'db',
+}

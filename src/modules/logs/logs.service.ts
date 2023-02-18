@@ -12,6 +12,7 @@ export class LogsService {
   }
 
   async log(info) {
+    console.log('info', info)
     const logTpl = await this.logsRepo.create({
       path: info.context.path,
       method: info.context.method,

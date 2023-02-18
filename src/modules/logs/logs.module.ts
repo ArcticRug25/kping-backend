@@ -22,6 +22,7 @@ class TypeOrmTransport extends TransportStream {
   }
 
   async log(info: any, next: () => void) {
+    if (!(info.context instanceof Object)) return
     if (info.level === LogLevel.WARN || info.level === LogLevel.ERROR) {
       this.logsService.log(info)
     }

@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
-import { LogsModule } from './modules/logs/logs.module'
-import { getConfig } from './utils/config'
-import { UserModule } from './modules/user/user.module'
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { connectionParams } from '../ormconfig'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
 import { AuthModule } from './modules/auth/auth.module'
+import { LogsModule } from './modules/logs/logs.module'
+import { UserModule } from './modules/user/user.module'
+import { getConfig } from './utils/config'
 
 @Module({
   imports: [
