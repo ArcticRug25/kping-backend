@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { User } from '../../user/entities/user.entity'
 
 @Entity()
@@ -17,6 +17,12 @@ export class Logs {
 
   @Column()
   result: number
+
+  @Column()
+  ip: string
+
+  @CreateDateColumn({ name: 'create_time', comment: '创建时间' })
+  createTime: Date
 
   @ManyToOne(() => User, (user) => user.logs)
   @JoinColumn()

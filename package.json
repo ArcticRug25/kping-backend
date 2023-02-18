@@ -54,7 +54,8 @@
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.12",
     "winston": "^3.8.2",
-    "winston-daily-rotate-file": "^4.7.1"
+    "winston-daily-rotate-file": "^4.7.1",
+    "winston-transport": "^4.5.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

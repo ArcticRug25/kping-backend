@@ -7,6 +7,7 @@ import { SigninUserDto } from './dto/signin-user.dto'
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('/signin')
+  @Public()
   async signin(@Body() dto: SigninUserDto) {
     const { username, password } = dto
     const token = await this.authService.signin(username, password)

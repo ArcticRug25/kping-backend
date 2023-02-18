@@ -16,6 +16,8 @@ export class UserService {
   }
 
   findAll() {
+    const a: any = 2
+    a.d.c
     return this.userRepo.find()
   }
 

@@ -13,7 +13,7 @@ import requestIp from 'request-ip'
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
   constructor(private logger: LoggerService, private httpAdapterHost: HttpAdapterHost) {}
-  catch(exception: unknown, host: ArgumentsHost) {
+  catch(exception: Error, host: ArgumentsHost) {
     const { httpAdapter } = this.httpAdapterHost
     const ctx = host.switchToHttp()
     const response: Response = ctx.getResponse()
@@ -28,13 +28,17 @@ export class AllExceptionFilter implements ExceptionFilter {
       query: request.query,
       body: request.body,
       params: request.params,
+      path: request.originalUrl,
       timestamp: new Date().toISOString(),
       ip: requestIp.getClientIp(request),
       exception: exception['name'],
+      method: request.method,
       error: msg,
+      user: request.user,
+      status: httpStatus,
     }
 
-    this.logger.error('[2525]', responsBody)
+    this.logger.error(msg, exception.stack, responsBody)
     httpAdapter.reply(response, responsBody, httpStatus)
   }
 }

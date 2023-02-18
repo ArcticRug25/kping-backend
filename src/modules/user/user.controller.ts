@@ -14,7 +14,6 @@ export class UserController {
   }
 
   @Get()
-  @Public()
   findAll() {
     return this.userService.findAll()
   }

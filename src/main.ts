@@ -11,9 +11,10 @@ import { AllExceptionFilter } from './common/exceptions/all-exception.filter'
 import CustomValidate from './common/validate/custom.validate'
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard'
 import { TransformInterceptor } from './common/interceptors/transform.interceptor'
+import { NestExpressApplication } from '@nestjs/platform-express'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create<NestExpressApplication>(AppModule)
 
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER))
 
@@ -25,7 +26,7 @@ async function bootstrap() {
       max: 100, // limit each IP to 100 requests per windowMs
     }),
   )
-
+  app.set('trust proxy', true)
   // 全局管道
   app.useGlobalPipes(
     new CustomValidate({
@@ -44,6 +45,6 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api')
 
-  await app.listen(3001)
+  await app.listen(3001, '0.0.0.0')
 }
 bootstrap()
