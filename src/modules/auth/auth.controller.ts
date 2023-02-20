@@ -1,4 +1,4 @@
-import { Controller, Body, Post, Get, Res, Req } from '@nestjs/common'
+import { Controller, Body, Post, Get, Res, Req, ForbiddenException, Header, Session } from '@nestjs/common'
 import { Public } from 'src/common/decorator/public.decorator'
 import { AuthService } from './auth.service'
 import { SigninUserDto } from './dto/signin-user.dto'
@@ -12,7 +12,11 @@ export class AuthController {
   constructor(private readonly authService: AuthService, private readonly configService: ConfigService) {}
   @Post('/signin')
   @Public()
-  async signin(@Body() dto: SigninUserDto) {
+  async signin(@Body() dto: SigninUserDto, @Session() session: Record<string, any>) {
+    console.log('req.session', session, dto)
+    if (session.code.toLocaleLowerCase() !== dto?.code?.toLocaleLowerCase()) {
+      throw new ForbiddenException('验证码错误')
+    }
     const { username, password } = dto
     const token = await this.authService.signin(username, password)
     return {

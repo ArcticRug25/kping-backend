@@ -4,21 +4,25 @@ import { HttpExceptionFilter } from './common/exceptions/http-exception.filter'
 // 请求限制
 import rateLimit from 'express-rate-limit'
 // 安全头
-import { ClassSerializerInterceptor, Logger, ValidationPipe } from '@nestjs/common'
+import { ClassSerializerInterceptor, Logger } from '@nestjs/common'
+import { NestExpressApplication } from '@nestjs/platform-express'
+import session from 'express-session'
 import helmet from 'helmet'
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston'
 import { AllExceptionFilter } from './common/exceptions/all-exception.filter'
-import CustomValidate from './common/validate/custom.validate'
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard'
 import { TransformInterceptor } from './common/interceptors/transform.interceptor'
-import { NestExpressApplication } from '@nestjs/platform-express'
-import session from 'express-session'
-import { getConfig } from './utils/config'
+import CustomValidate from './common/validate/custom.validate'
 import { ConfigEnum } from './enum/config.enum'
+import { getConfig } from './utils/config'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
 
+  app.enableCors({
+    credentials: true,
+    origin: true,
+  })
   // session设置
   app.use(
     session({
