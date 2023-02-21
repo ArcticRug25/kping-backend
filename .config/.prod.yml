@@ -18,8 +18,6 @@ LOG:
   level: info
 
 ALI_CLOUD:
-  accessKeyId: LTAI5tLptcH4q2XcJZYaoM1m
-  accessKeySecret: BGzMEQ9DvB1CLgm2VMEj2N2BgJF9MY
   endpoint: ''
   apiVersion: ''
 
