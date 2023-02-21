@@ -1,8 +1,9 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, JoinColumn, OneToOne } from 'typeorm'
 import { Logs } from '../../logs/entities/logs.entity'
 import { Member } from '../../member/entities/member.entity'
-import { MerchantMember } from '../../member/entities/merchant-member.entity'
 import { Voucher } from '../../voucher/entities/voucher.entity'
+import { MerchantMember } from '../../member/entities/merchant-member.entity'
+import { Profile } from './profile.entity'
 
 @Entity()
 export class Merchant {
@@ -23,4 +24,8 @@ export class Merchant {
 
   @OneToMany(() => MerchantMember, (merchantMember) => merchantMember.merchant)
   members: Member[]
+
+  @OneToOne(() => Profile, { onDelete: 'CASCADE' })
+  @JoinColumn()
+  profile: Profile
 }

@@ -3,7 +3,7 @@ import { getConfig, getEnv } from './src/utils/config'
 import { ConfigEnum, DBConfigEnum } from './src/enum/config.enum'
 
 const entitiesDir = getEnv() === 'dev' ? [__dirname + '/**/*.entity{.js,.ts}'] : [__dirname + '/**/*.entity{.js,.ts}']
-
+console.log('entitiesDir', entitiesDir)
 function buildConnectionParamsByEnv() {
   const dbParams = getConfig(ConfigEnum.DB)
   return {

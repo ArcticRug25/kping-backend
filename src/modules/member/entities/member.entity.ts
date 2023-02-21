@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Merchant } from '../../merchant/entities/merchant.entity'
 import { Voucher } from '../../voucher/entities/voucher.entity'
 import { MerchantMember } from './merchant-member.entity'
+import { VoucherMember } from '../../voucher/entities/voucher-member.entity'
 
 export enum Gender {
   Male = 'male',
@@ -32,7 +33,7 @@ export class Member {
   @Column({ name: 'last_action' })
   lastAction: Date
 
-  @OneToMany(() => Voucher, (voucher) => voucher.member)
+  @OneToMany(() => VoucherMember, (voucherMember) => voucherMember.member)
   vouchers: Voucher[]
 
   @OneToMany(() => MerchantMember, (merchantmember) => merchantmember.merchant)

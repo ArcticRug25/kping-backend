@@ -18,7 +18,6 @@ export class SigninUserDto {
   @Length(6, 32)
   password: string
 
-  @IsString()
   code: string
 
   // @BeforeInsert() {

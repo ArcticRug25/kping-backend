@@ -25,7 +25,8 @@
     "migration:create": "typeorm-ts-node-commonjs migration:create",
     "migration:run": "pnpm run typeorm migration:run",
     "migration:revert": "pnpm run typeorm migration:revert",
-    "schema:drop": "pnpm run typeorm schema:drop"
+    "schema:drop": "pnpm run typeorm schema:drop",
+    "seed": "cross-env NODE_ENV=dev ts-node mock/seed.ts"
   },
   "dependencies": {
     "@alicloud/pop-core": "^1.7.12",
