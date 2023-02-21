@@ -3,6 +3,7 @@ export enum ConfigEnum {
   LOG = 'LOG',
   SECRET = 'SECRET',
   CAPTCHA = 'CAPTCHA',
+  ALI_CLOUD = 'ALI_CLOUD',
 }
 
 export enum DBConfigEnum {
@@ -28,4 +29,11 @@ export enum CaptchaEnum {
   width = 'width',
   height = 'height',
   background = 'background',
+}
+
+export enum AliCloudConfigEnum {
+  accessKeyId = 'accessKeyId',
+  accessKeySecret = 'accessKeySecret',
+  endpoint = 'endpoint',
+  apiVersion = 'apiVersion',
 }

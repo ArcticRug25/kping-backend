@@ -1,4 +1,4 @@
-import { User } from './user.entity'
+import { Merchant } from './merchant.entity'
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
@@ -15,7 +15,7 @@ export class Profile {
   @Column()
   address: string
 
-  @OneToOne(() => User, { onDelete: 'CASCADE' })
+  @OneToOne(() => Merchant, { onDelete: 'CASCADE' })
   @JoinColumn()
-  user: User
+  merchant: Merchant
 }

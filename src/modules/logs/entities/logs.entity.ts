@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { User } from '../../user/entities/user.entity'
+import { Merchant } from '../../merchant/entities/merchant.entity'
 
 @Entity()
 export class Logs {
@@ -24,7 +24,7 @@ export class Logs {
   @CreateDateColumn({ name: 'create_time', comment: '创建时间' })
   createTime: Date
 
-  @ManyToOne(() => User, (user) => user.logs)
+  @ManyToOne(() => Merchant, (merchant) => merchant.logs)
   @JoinColumn()
-  user: User
+  merchant: Merchant
 }

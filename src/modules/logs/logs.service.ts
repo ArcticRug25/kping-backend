@@ -12,7 +12,6 @@ export class LogsService {
   }
 
   async log(info) {
-    console.log('info', info)
     const logTpl = await this.logsRepo.create({
       path: info.context.path,
       method: info.context.method,
@@ -22,7 +21,7 @@ export class LogsService {
     })
     const userId = info.context.user?.userId
     if (userId) {
-      logTpl.user = userId
+      logTpl.merchant = userId
     }
     this.logsRepo.save(logTpl)
   }

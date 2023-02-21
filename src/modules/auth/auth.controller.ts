@@ -1,11 +1,11 @@
-import { Controller, Body, Post, Get, Res, Req, ForbiddenException, Header, Session } from '@nestjs/common'
+import { Body, Controller, Get, Post, Req, Res, Session, UnprocessableEntityException } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { Request } from 'express'
 import { Public } from 'src/common/decorator/public.decorator'
+import svgCaptcha from 'svg-captcha'
+import { CaptchaEnum, ConfigEnum } from '../../enum/config.enum'
 import { AuthService } from './auth.service'
 import { SigninUserDto } from './dto/signin-user.dto'
-import svgCaptcha from 'svg-captcha'
-import { ConfigService } from '@nestjs/config'
-import { CaptchaEnum, ConfigEnum } from '../../enum/config.enum'
-import { Request } from 'express'
 
 @Controller('auth')
 export class AuthController {
@@ -13,9 +13,8 @@ export class AuthController {
   @Post('/signin')
   @Public()
   async signin(@Body() dto: SigninUserDto, @Session() session: Record<string, any>) {
-    console.log('req.session', session, dto)
     if (session.code.toLocaleLowerCase() !== dto?.code?.toLocaleLowerCase()) {
-      throw new ForbiddenException('验证码错误')
+      throw new UnprocessableEntityException('验证码错误')
     }
     const { username, password } = dto
     const token = await this.authService.signin(username, password)
