@@ -60,6 +60,7 @@ specifiers:
   tsconfig-paths: 4.0.0
   typeorm: ^0.3.12
   typeorm-model-generator: ^0.4.6
+  typeorm-naming-strategies: ^4.1.0
   typescript: ^4.3.5
   winston: ^3.8.2
   winston-daily-rotate-file: ^4.7.1
@@ -98,6 +99,7 @@ dependencies:
   rxjs: 7.8.0
   svg-captcha: 1.4.0
   typeorm: 0.3.12_ugxfmtx4l3c6r5ifzskv5nymve
+  typeorm-naming-strategies: 4.1.0_typeorm@0.3.12
   winston: 3.8.2
   winston-daily-rotate-file: 4.7.1_winston@3.8.2
   winston-transport: 4.5.0
@@ -6494,6 +6496,14 @@ packages:
       - supports-color
       - typeorm-aurora-data-api-driver
     dev: true
+
+  /typeorm-naming-strategies/4.1.0_typeorm@0.3.12:
+    resolution: {integrity: sha512-vPekJXzZOTZrdDvTl1YoM+w+sUIfQHG4kZTpbFYoTsufyv9NIBRe4Q+PdzhEAFA2std3D9LZHEb1EjE9zhRpiQ==}
+    peerDependencies:
+      typeorm: ^0.2.0 || ^0.3.0
+    dependencies:
+      typeorm: 0.3.12_ugxfmtx4l3c6r5ifzskv5nymve
+    dev: false
 
   /typeorm/0.2.45_oboxf5pqsbjnoet6uwup56lncy:
     resolution: {integrity: sha512-c0rCO8VMJ3ER7JQ73xfk0zDnVv0WDjpsP6Q1m6CVKul7DB9iVdWLRjPzc8v2eaeBuomsbZ2+gTaYr8k1gm3bYA==}

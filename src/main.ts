@@ -26,6 +26,8 @@ async function bootstrap() {
   // session设置
   app.use(
     session({
+      resave: false,
+      saveUninitialized: true,
       secret: getConfig(ConfigEnum.SECRET),
       name: 'kping.customer',
       rolling: true,

@@ -13,7 +13,9 @@ export class AuthController {
   @Post('/signin')
   @Public()
   async signin(@Body() dto: SigninUserDto, @Session() session: Record<string, any>) {
-    if (session.code.toLocaleLowerCase() !== dto?.code?.toLocaleLowerCase()) {
+    console.log('🚀 ~ file: auth.controller.ts:16 ~ AuthController ~ signin ~ session:', session, dto)
+
+    if (dto.code && session.code.toLocaleLowerCase() !== dto.code?.toLocaleLowerCase()) {
       throw new UnprocessableEntityException('验证码错误')
     }
     const { username, password } = dto

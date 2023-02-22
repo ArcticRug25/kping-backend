@@ -19,7 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "generate:modles": "typeorm-model-generator -h 127.0.0.1 -p 3306 -d test -u root -x wyw123456 -e mysql -o ./src/entities",
+    "generate:modles": "typeorm-model-generator -h 127.0.0.1 -p 3306 -d test -u root -x wyw123456 -e mysql -o ./entities",
     "typeorm": "typeorm-ts-node-commonjs -d ./ormconfig.ts",
     "migration:generate": "f() { pnpm run typeorm migration:generate -p \"./migrations/$@\"; }; f",
     "migration:create": "typeorm-ts-node-commonjs migration:create",
@@ -61,6 +61,7 @@
     "rxjs": "^7.2.0",
     "svg-captcha": "^1.4.0",
     "typeorm": "^0.3.12",
+    "typeorm-naming-strategies": "^4.1.0",
     "winston": "^3.8.2",
     "winston-daily-rotate-file": "^4.7.1",
     "winston-transport": "^4.5.0"

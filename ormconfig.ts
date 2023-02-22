@@ -1,6 +1,8 @@
 import { DataSource, DataSourceOptions } from 'typeorm'
 import { getConfig, getEnv } from './src/utils/config'
 import { ConfigEnum, DBConfigEnum } from './src/enum/config.enum'
+import { TypeOrmModuleOptions } from '@nestjs/typeorm'
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
 
 const entitiesDir = getEnv() === 'dev' ? [__dirname + '/**/*.entity{.js,.ts}'] : [__dirname + '/**/*.entity{.js,.ts}']
 console.log('entitiesDir', entitiesDir)
@@ -16,9 +18,9 @@ function buildConnectionParamsByEnv() {
     synchronize: dbParams[DBConfigEnum.synchronize],
     // logging: true,
     logging: ['error'],
-  }
+    namingStrategy: new SnakeNamingStrategy(),
+  } as TypeOrmModuleOptions
 }
-
 export const connectionParams = buildConnectionParamsByEnv()
 export default new DataSource({
   ...connectionParams,

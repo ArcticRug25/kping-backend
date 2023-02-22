@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common'
 import { MemberService } from './member.service'
 import { CreateMemberDto } from './dto/create-member.dto'
 import { UpdateMemberDto } from './dto/update-member.dto'
+import { TokenUser, User } from '../../common/decorator/user.decorator'
 
 @Controller('member')
 export class MemberController {
@@ -12,9 +13,9 @@ export class MemberController {
     return this.memberService.create(createMemberDto)
   }
 
-  @Get()
-  findAll() {
-    return this.memberService.findAll()
+  @Get('list')
+  findAll(@User() user: TokenUser) {
+    return this.memberService.findAll(user.userId)
   }
 
   @Get(':id')

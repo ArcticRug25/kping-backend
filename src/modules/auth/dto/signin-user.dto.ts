@@ -1,5 +1,4 @@
-import { IsNotEmpty, IsString, Length } from 'class-validator'
-import { BeforeInsert } from 'typeorm'
+import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator'
 
 export class SigninUserDto {
   @IsString()
@@ -18,7 +17,9 @@ export class SigninUserDto {
   @Length(6, 32)
   password: string
 
-  code: string
+  @Length(0, 4)
+  @IsOptional()
+  code?: string
 
   // @BeforeInsert() {
 

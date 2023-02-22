@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Merchant } from '../../merchant/entities/merchant.entity'
 import { Member } from './member.entity'
 
-@Entity('merchants_members')
+@Entity('merchant_member')
 export class MerchantMember {
   @PrimaryGeneratedColumn()
   id: number

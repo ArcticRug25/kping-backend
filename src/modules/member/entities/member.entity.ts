@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Merchant } from '../../merchant/entities/merchant.entity'
 import { Voucher } from '../../voucher/entities/voucher.entity'
 import { MerchantMember } from './merchant-member.entity'
@@ -34,7 +34,7 @@ export class Member {
   lastAction: Date
 
   @OneToMany(() => VoucherMember, (voucherMember) => voucherMember.member)
-  vouchers: Voucher[]
+  voucherMember: VoucherMember[]
 
   @OneToMany(() => MerchantMember, (merchantmember) => merchantmember.merchant)
   merchants: Merchant[]

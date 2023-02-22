@@ -11,7 +11,7 @@ dataSource
     // await generateMember()
     // await generateVoucher()
     // await generateMerchanMemberShip()
-    await generateVoucherMemberShip()
+    // await generateVoucherMemberShip()
     console.log('--------------------Finish--------------------')
   })
   .catch((err) => {
