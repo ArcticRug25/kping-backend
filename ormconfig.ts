@@ -16,8 +16,8 @@ function buildConnectionParamsByEnv() {
     database: dbParams[DBConfigEnum.database],
     entities: entitiesDir,
     synchronize: dbParams[DBConfigEnum.synchronize],
-    // logging: true,
-    logging: ['error'],
+    logging: true,
+    // logging: ['error'],
     namingStrategy: new SnakeNamingStrategy(),
   } as TypeOrmModuleOptions
 }

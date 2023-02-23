@@ -10,9 +10,9 @@ export class MerchantMember {
   @Column({ name: 'join_time', default: () => 'CURRENT_TIMESTAMP' })
   joinTime: Date
 
-  @ManyToOne(() => Member, (member) => member.merchants)
+  @ManyToOne(() => Member, (member) => member.voucherMember)
   member: Member
 
-  @ManyToOne(() => Merchant, (merchant) => merchant.members)
+  @ManyToOne(() => Merchant, (merchant) => merchant.merchantMember)
   merchant: Merchant
 }

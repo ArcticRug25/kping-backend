@@ -1,9 +1,9 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { camelCase } from 'change-case'
+import { Transform } from 'class-transformer'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Merchant } from '../../merchant/entities/merchant.entity'
-import { Voucher } from '../../voucher/entities/voucher.entity'
-import { MerchantMember } from './merchant-member.entity'
 import { VoucherMember } from '../../voucher/entities/voucher-member.entity'
-
+import { MerchantMember } from './merchant-member.entity'
 export enum Gender {
   Male = 'male',
   Female = 'female',
@@ -37,5 +37,5 @@ export class Member {
   voucherMember: VoucherMember[]
 
   @OneToMany(() => MerchantMember, (merchantmember) => merchantmember.merchant)
-  merchants: Merchant[]
+  merchantMember: Merchant[]
 }

@@ -6,6 +6,9 @@ import { CreateMemberDto } from './dto/create-member.dto'
 import { UpdateMemberDto } from './dto/update-member.dto'
 import { Member } from './entities/member.entity'
 import { MerchantMember } from './entities/merchant-member.entity'
+import { Merchant } from '../merchant/entities/merchant.entity'
+import { GetMemberListDto } from './dto/get-member-list.dto'
+import { conditionUtils, conditionBetweenUtils } from '../../utils/db.helper'
 
 @Injectable()
 export class MemberService {
@@ -13,28 +16,52 @@ export class MemberService {
     @InjectRepository(Member) private readonly memberRepo: Repository<Member>,
     @InjectRepository(VoucherMember) private readonly voucherMemberRepo: Repository<VoucherMember>,
     @InjectRepository(MerchantMember) private readonly merchantMemberRepo: Repository<MerchantMember>,
+    @InjectRepository(Merchant) private readonly merchantRepo: Repository<Merchant>,
   ) {}
 
   create(createMemberDto: CreateMemberDto) {
     return 'This action adds a new member'
   }
 
-  async findAll(userId) {
-    // const a = await this.voucherMemberRepo
-    //   .createQueryBuilder('vm')
-    //   .leftJoinAndSelect('vm.member', 'member')
-    //   .leftJoinAndSelect('vm.voucher', 'voucher')
-    //   .getMany()
-    // const a = await this.merchantMemberRepo
-    //   .createQueryBuilder('mm')
-    //   .leftJoinAndSelect('mm.member', 'member')
-    //   .andWhere('mm.merchantId = :userId', { userId })
-    //   .getMany()
-    // const a = await this.memberRepo
-    //   .createQueryBuilder('member')
-    //   .leftJoinAndSelect('member.vouchers', 'voucher').leftJoinAndMapMany
-    //   .getMany()
-    return 'a'
+  async findAll(userId, query: GetMemberListDto) {
+    const { gender, isHalal, joinStart, joinEnd, actionStart, actionEnd, distanceFrom, distanceTo } = query
+    console.log('query', query)
+    const queryConditionMap = {
+      'member.gender': gender,
+      'member.isHalal': isHalal,
+    }
+
+    let queryBuilder = this.memberRepo
+      .createQueryBuilder('member')
+      .leftJoinAndMapOne('member.joinTime', 'MerchantMember', 'mm', 'mm.member_id = member.id')
+      .leftJoin('member.voucherMember', 'vm')
+      .leftJoinAndMapMany('member.vouchers', 'Voucher', 'voucher', 'voucher.id = vm.voucher_id')
+      .where('mm.merchant_id = :userId', { userId })
+    // .andWhere(
+    //   'mm.join_time BETWEEN :joinStart AND :joinEnd AND member.lastAction BETWEEN :actionStart AND :actionEnd',
+    //   {
+    //     joinStart,
+    //     joinEnd,
+    //     actionStart,
+    //     actionEnd,
+    //   },
+    // )
+
+    if (joinStart && joinEnd) {
+      queryBuilder = conditionBetweenUtils(queryBuilder, 'mm', 'join_time', joinStart, joinEnd)
+    }
+
+    if (actionStart && actionEnd) {
+      queryBuilder = conditionBetweenUtils(queryBuilder, 'member', 'last_action', actionStart, actionEnd)
+    }
+
+    // if (distanceFrom && distanceTo) {
+    //   queryBuilder = conditionBetweenUtils(queryBuilder, 'member', 'distance', distanceFrom, distanceTo)
+    // }
+
+    queryBuilder = conditionUtils<Member>(queryBuilder, queryConditionMap)
+
+    return queryBuilder.getMany()
   }
 
   findOne(id: number) {

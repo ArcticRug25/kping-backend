@@ -4,6 +4,7 @@ import { Member } from '../../member/entities/member.entity'
 import { Voucher } from '../../voucher/entities/voucher.entity'
 import { MerchantMember } from '../../member/entities/merchant-member.entity'
 import { Profile } from './profile.entity'
+import { Exclude } from 'class-transformer'
 
 @Entity()
 export class Merchant {
@@ -11,6 +12,7 @@ export class Merchant {
   username: string
 
   @Column('varchar', { name: 'password', length: 255 })
+  @Exclude()
   password: string
 
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
@@ -23,7 +25,7 @@ export class Merchant {
   logs: Logs[]
 
   @OneToMany(() => MerchantMember, (merchantMember) => merchantMember.merchant)
-  members: Member[]
+  merchantMember: Member[]
 
   @OneToOne(() => Profile, { onDelete: 'CASCADE' })
   @JoinColumn()

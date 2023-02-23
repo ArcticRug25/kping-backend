@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { Module, ClassSerializerInterceptor } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { connectionParams } from '../ormconfig'
@@ -10,6 +10,7 @@ import { MerchantModule } from './modules/merchant/merchant.module'
 import { getConfig } from './utils/config'
 import { MemberModule } from './modules/member/member.module'
 import { VoucherModule } from './modules/voucher/voucher.module'
+import { APP_INTERCEPTOR } from '@nestjs/core'
 
 @Module({
   imports: [
@@ -22,6 +23,12 @@ import { VoucherModule } from './modules/voucher/voucher.module'
     VoucherModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+  ],
 })
 export class AppModule {}

@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Query } from '@nestjs/common'
 import { MemberService } from './member.service'
 import { CreateMemberDto } from './dto/create-member.dto'
 import { UpdateMemberDto } from './dto/update-member.dto'
 import { TokenUser, User } from '../../common/decorator/user.decorator'
+import { GetMemberListDto } from './dto/get-member-list.dto'
 
 @Controller('member')
 export class MemberController {
@@ -14,8 +15,8 @@ export class MemberController {
   }
 
   @Get('list')
-  findAll(@User() user: TokenUser) {
-    return this.memberService.findAll(user.userId)
+  findAll(@Query() query: GetMemberListDto, @User() user: TokenUser) {
+    return this.memberService.findAll(user.userId, query)
   }
 
   @Get(':id')

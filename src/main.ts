@@ -18,7 +18,6 @@ import { getConfig } from './utils/config'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
-
   app.enableCors({
     credentials: true,
     origin: true,
@@ -53,6 +52,7 @@ async function bootstrap() {
     new CustomValidate({
       // 去除在类上不存在的内容
       whitelist: true,
+      transform: true,
     }),
   )
 
@@ -60,7 +60,7 @@ async function bootstrap() {
   const httpAdapter = app.get(HttpAdapterHost)
   app.useGlobalFilters(new AllExceptionFilter(logger, httpAdapter), new HttpExceptionFilter(logger))
 
-  app.useGlobalInterceptors(new TransformInterceptor(), new ClassSerializerInterceptor(app.get(Reflector)))
+  app.useGlobalInterceptors(new TransformInterceptor())
 
   app.useGlobalGuards(new JwtAuthGuard(new Reflector()))
 

@@ -8,3 +8,13 @@ export const conditionUtils = <T>(queryBuilder: SelectQueryBuilder<T>, obj: Reco
   })
   return queryBuilder
 }
+
+export const conditionBetweenUtils = <T>(
+  queryBuilder: SelectQueryBuilder<T>,
+  name: string,
+  param: string,
+  start,
+  end,
+) => {
+  return queryBuilder.andWhere(`${name}.${param} BETWEEN :start AND :end`, { start, end })
+}

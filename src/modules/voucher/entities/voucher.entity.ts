@@ -1,5 +1,4 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
-import { Member } from '../../member/entities/member.entity'
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Merchant } from '../../merchant/entities/merchant.entity'
 import { VoucherMember } from './voucher-member.entity'
 
