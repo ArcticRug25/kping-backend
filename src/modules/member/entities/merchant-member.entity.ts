@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Merchant } from '../../merchant/entities/merchant.entity'
 import { Member } from './member.entity'
+import { Exclude } from 'class-transformer'
 
 @Entity('merchant_member')
 export class MerchantMember {

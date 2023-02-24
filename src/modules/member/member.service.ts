@@ -36,7 +36,7 @@ export class MemberService {
       .createQueryBuilder('member')
       .leftJoinAndMapOne('member.joinTime', 'MerchantMember', 'mm', 'mm.member_id = member.id')
       .leftJoin('member.voucherMember', 'vm')
-      .leftJoinAndMapMany('member.vouchers', 'Voucher', 'voucher', 'voucher.id = vm.v˜oucher_id')
+      .leftJoinAndMapMany('member.vouchers', 'Voucher', 'voucher', 'voucher.id = vm.voucher_id')
       .where('mm.merchant_id = :userId', { userId })
 
     if (joinStart && joinEnd) {

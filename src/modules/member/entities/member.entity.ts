@@ -1,4 +1,3 @@
-import { camelCase } from 'change-case'
 import { Transform } from 'class-transformer'
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Merchant } from '../../merchant/entities/merchant.entity'
@@ -38,4 +37,9 @@ export class Member {
 
   @OneToMany(() => MerchantMember, (merchantmember) => merchantmember.merchant)
   merchantMember: Merchant[]
+
+  @Transform(({ value: merchantMember }: { value: MerchantMember }) => {
+    return merchantMember.joinTime
+  })
+  joinTime: Date
 }
