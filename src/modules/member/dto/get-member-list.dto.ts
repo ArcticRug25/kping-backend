@@ -1,8 +1,9 @@
+import { Type } from 'class-transformer'
 import { IsOptional } from 'class-validator'
+import { PaginationDto } from '../../../common/dto/pagination.dto'
 import { Gender } from '../entities/member.entity'
-import { Transform } from 'class-transformer'
 
-export class GetMemberListDto {
+export class GetMemberListDto extends PaginationDto {
   @IsOptional()
   gender: Gender
 
@@ -10,19 +11,19 @@ export class GetMemberListDto {
   isHalal: number
 
   @IsOptional()
-  @Transform(({ value }) => new Date(value))
+  @Type()
   joinStart: Date
 
   @IsOptional()
-  @Transform(({ value }) => new Date(value))
+  @Type()
   joinEnd: Date
 
   @IsOptional()
-  @Transform(({ value }) => new Date(value))
+  @Type()
   actionStart: Date
 
   @IsOptional()
-  @Transform(({ value }) => new Date(value))
+  @Type()
   actionEnd: Date
 
   @IsOptional()

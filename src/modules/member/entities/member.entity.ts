@@ -30,7 +30,7 @@ export class Member {
   @Column()
   distance: string
 
-  @Column({ name: 'last_action' })
+  @Column({ name: 'last_action', default: () => 'CURRENT_TIMESTAMP' })
   lastAction: Date
 
   @OneToMany(() => VoucherMember, (voucherMember) => voucherMember.member)

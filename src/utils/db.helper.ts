@@ -16,5 +16,8 @@ export const conditionBetweenUtils = <T>(
   start,
   end,
 ) => {
-  return queryBuilder.andWhere(`${name}.${param} BETWEEN :start AND :end`, { start, end })
+  return queryBuilder.andWhere(`${name}.${param} BETWEEN :${param}start AND :${param}end`, {
+    [param + 'start']: start,
+    [param + 'end']: end,
+  })
 }

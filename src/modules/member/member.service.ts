@@ -9,6 +9,7 @@ import { MerchantMember } from './entities/merchant-member.entity'
 import { Merchant } from '../merchant/entities/merchant.entity'
 import { GetMemberListDto } from './dto/get-member-list.dto'
 import { conditionUtils, conditionBetweenUtils } from '../../utils/db.helper'
+import { PaginatedDto } from '../../common/dto/paginated.dto'
 
 @Injectable()
 export class MemberService {
@@ -23,8 +24,8 @@ export class MemberService {
     return 'This action adds a new member'
   }
 
-  async findAll(userId, query: GetMemberListDto) {
-    const { gender, isHalal, joinStart, joinEnd, actionStart, actionEnd, distanceFrom, distanceTo } = query
+  async findAll(userId, query: GetMemberListDto): Promise<PaginatedDto<Member>> {
+    const { gender, isHalal, joinStart, joinEnd, actionStart, actionEnd, distanceFrom, distanceTo, take, skip } = query
     console.log('query', query)
     const queryConditionMap = {
       'member.gender': gender,
@@ -35,17 +36,8 @@ export class MemberService {
       .createQueryBuilder('member')
       .leftJoinAndMapOne('member.joinTime', 'MerchantMember', 'mm', 'mm.member_id = member.id')
       .leftJoin('member.voucherMember', 'vm')
-      .leftJoinAndMapMany('member.vouchers', 'Voucher', 'voucher', 'voucher.id = vm.voucher_id')
+      .leftJoinAndMapMany('member.vouchers', 'Voucher', 'voucher', 'voucher.id = vm.v˜oucher_id')
       .where('mm.merchant_id = :userId', { userId })
-    // .andWhere(
-    //   'mm.join_time BETWEEN :joinStart AND :joinEnd AND member.lastAction BETWEEN :actionStart AND :actionEnd',
-    //   {
-    //     joinStart,
-    //     joinEnd,
-    //     actionStart,
-    //     actionEnd,
-    //   },
-    // )
 
     if (joinStart && joinEnd) {
       queryBuilder = conditionBetweenUtils(queryBuilder, 'mm', 'join_time', joinStart, joinEnd)
@@ -55,13 +47,18 @@ export class MemberService {
       queryBuilder = conditionBetweenUtils(queryBuilder, 'member', 'last_action', actionStart, actionEnd)
     }
 
-    // if (distanceFrom && distanceTo) {
-    //   queryBuilder = conditionBetweenUtils(queryBuilder, 'member', 'distance', distanceFrom, distanceTo)
-    // }
+    if (distanceFrom && distanceTo) {
+      queryBuilder = conditionBetweenUtils(queryBuilder, 'member', 'distance', distanceFrom, distanceTo)
+    }
 
     queryBuilder = conditionUtils<Member>(queryBuilder, queryConditionMap)
 
-    return queryBuilder.getMany()
+    const [rows, total] = await queryBuilder.skip(skip).take(take).getManyAndCount()
+
+    return {
+      rows,
+      total,
+    }
   }
 
   findOne(id: number) {
