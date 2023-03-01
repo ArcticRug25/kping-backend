@@ -4,7 +4,7 @@ import { HttpExceptionFilter } from './common/exceptions/http-exception.filter'
 // 请求限制
 import rateLimit from 'express-rate-limit'
 // 安全头
-import { ClassSerializerInterceptor, Logger } from '@nestjs/common'
+import { Logger } from '@nestjs/common'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import session from 'express-session'
 import helmet from 'helmet'

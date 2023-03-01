@@ -31,4 +31,7 @@ export class GetMemberListDto extends PaginationDto {
 
   @IsOptional()
   distanceTo: number
+
+  @IsOptional()
+  orderBy: (Gender | 'isHalal')[]
 }
