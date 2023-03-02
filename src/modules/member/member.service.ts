@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { PaginatedDto } from '../../common/dto/paginated.dto'
-import { conditionBetweenUtils, conditionUtils } from '../../utils/db.helper'
+import { conditionBetweenUtils, conditionUtils, LIKE_SEARCH } from '../../utils/db.helper'
 import { CreateMemberDto } from './dto/create-member.dto'
 import { GetMemberListDto } from './dto/get-member-list.dto'
 import { UpdateMemberDto } from './dto/update-member.dto'
@@ -29,11 +29,16 @@ export class MemberService {
       take,
       skip,
       orderBy,
+      name,
     } = query
     console.log('query', query)
     const queryConditionMap = {
       'member.gender': gender,
       'member.isHalal': isHalal,
+      'member.username': {
+        type: LIKE_SEARCH,
+        value: name,
+      },
     }
 
     const orderMap = {}

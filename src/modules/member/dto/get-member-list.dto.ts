@@ -1,9 +1,13 @@
 import { Type } from 'class-transformer'
-import { IsOptional } from 'class-validator'
+import { IsOptional, Length } from 'class-validator'
 import { PaginationDto } from '../../../common/dto/pagination.dto'
 import { Gender } from '../entities/member.entity'
 
 export class GetMemberListDto extends PaginationDto {
+  @IsOptional()
+  @Length(0, 30)
+  name: string
+
   @IsOptional()
   gender: Gender
 

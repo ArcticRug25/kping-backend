@@ -1,9 +1,15 @@
 import { SelectQueryBuilder } from 'typeorm'
 
-export const conditionUtils = <T>(queryBuilder: SelectQueryBuilder<T>, obj: Record<string, unknown>) => {
+export const LIKE_SEARCH = 'likeSearch'
+
+export const conditionUtils = <T>(queryBuilder: SelectQueryBuilder<T>, obj: Record<string, any>) => {
   Object.keys(obj).forEach((key) => {
-    if (obj[key]) {
-      queryBuilder.andWhere(`${key} = :${key}`, { [key]: obj[key] })
+    const mapValue = obj[key]
+    if (!mapValue) return
+    if (typeof mapValue === 'string') {
+      queryBuilder.andWhere(`${key} = :${key}`, { [key]: mapValue })
+    } else {
+      mapValue.value && queryBuilder.andWhere(`${key} LIKE :${key}`, { [key]: `%${mapValue.value}%` })
     }
   })
   return queryBuilder
