@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common'
 import { VoucherService } from './voucher.service'
 import { CreateVoucherDto } from './dto/create-voucher.dto'
 import { UpdateVoucherDto } from './dto/update-voucher.dto'
+import { PaginationPipe } from '../../common/pipe/pagination.pipe'
+import { User, TokenUser } from '../../common/decorator/user.decorator'
 
 @Controller('voucher')
 export class VoucherController {
@@ -12,9 +14,9 @@ export class VoucherController {
     return this.voucherService.create(createVoucherDto)
   }
 
-  @Get()
-  findAll() {
-    return this.voucherService.findAll()
+  @Get('list')
+  findAll(@Query(PaginationPipe) query, @User() user: TokenUser) {
+    return this.voucherService.findAll(user.userId, query)
   }
 
   @Get(':id')
