@@ -10,7 +10,7 @@ import { Repository } from 'typeorm'
 export class VoucherService {
   constructor(@InjectRepository(Voucher) private readonly voucherRepo: Repository<Voucher>) {}
 
-  create(createVoucherDto: CreateVoucherDto) {
+  create(userId, createVoucherDto: CreateVoucherDto) {
     return 'This action adds a new voucher'
   }
 

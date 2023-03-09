@@ -10,8 +10,8 @@ export class VoucherController {
   constructor(private readonly voucherService: VoucherService) {}
 
   @Post()
-  create(@Body() createVoucherDto: CreateVoucherDto) {
-    return this.voucherService.create(createVoucherDto)
+  create(@Body() createVoucherDto: CreateVoucherDto, @User() user: TokenUser) {
+    return this.voucherService.create(user.userId, createVoucherDto)
   }
 
   @Get('list')
