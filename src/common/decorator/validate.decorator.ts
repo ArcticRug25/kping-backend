@@ -1,6 +1,7 @@
 import { registerDecorator, ValidationArguments, ValidationOptions } from 'class-validator'
 import { CreateVoucherDto } from '../../modules/voucher/dto/create-voucher.dto'
 
+// 验证金额范围，根据 isDiscount 的值来判断
 export function IsRangeAmount(property: string, validationOptions?: ValidationOptions) {
   return (object: object, propertyName: string) => {
     registerDecorator({
@@ -19,6 +20,22 @@ export function IsRangeAmount(property: string, validationOptions?: ValidationOp
             return false
           }
           return true
+        },
+      },
+    })
+  }
+}
+
+export function IsFutureDate(validationOptions?: ValidationOptions) {
+  return (object: object, propertyName: string) => {
+    registerDecorator({
+      name: 'isFutureDate',
+      target: object.constructor,
+      propertyName,
+      options: validationOptions,
+      validator: {
+        validate(value: any) {
+          return value.getTime() > Date.now()
         },
       },
     })

@@ -1,15 +1,6 @@
-import {
-  IsBoolean,
-  IsDate,
-  IsNumber,
-  Max,
-  Min,
-  ValidationArguments,
-  ValidatorConstraint,
-  ValidatorConstraintInterface,
-} from 'class-validator'
 import { Type } from 'class-transformer'
-import { IsRangeAmount } from 'src/common/decorator/validate.decorator'
+import { IsBoolean, IsDate, IsNumber, Max, Min, ValidationArguments } from 'class-validator'
+import { IsFutureDate, IsRangeAmount } from '../../../common/decorator/validate.decorator'
 
 export class CreateVoucherDto {
   @IsNumber()
@@ -25,17 +16,18 @@ export class CreateVoucherDto {
   @IsBoolean()
   isDiscount: boolean
 
-  // @Type()
-  // @IsDate()
-  // expiredAt: Date
+  @Type()
+  @IsDate()
+  @IsFutureDate({ message: 'Expired date must be in the future' })
+  expiredAt: Date
 
-  // @IsNumber()
-  // @Min(1)
-  // @Max(999)
-  // totalCount: number
+  @IsNumber()
+  @Min(1)
+  @Max(999)
+  totalCount: number
 
-  // @IsNumber()
-  // @Min(1)
-  // @Max(9999)
-  // minimumExpense: number
+  @IsNumber()
+  @Min(1)
+  @Max(9999)
+  minimumExpense: number
 }

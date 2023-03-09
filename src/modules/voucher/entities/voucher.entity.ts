@@ -1,4 +1,5 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { BeforeInsert, Column, Entity, Index, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { generateQRCode } from '../../../utils/qrcode'
 import { Merchant } from '../../merchant/entities/merchant.entity'
 import { VoucherMember } from './voucher-member.entity'
 
@@ -6,6 +7,10 @@ import { VoucherMember } from './voucher-member.entity'
 export class Voucher {
   @PrimaryGeneratedColumn()
   id: number
+
+  @Column({ comment: '票券二维码唯一标识' })
+  @Index({ unique: true })
+  voucherCode: string
 
   @Column()
   amount: number
@@ -46,9 +51,23 @@ export class Voucher {
   @Column({ name: 'create_time', default: () => 'CURRENT_TIMESTAMP' })
   createTime: Date
 
+  @Column({ type: 'text', comment: '二维码' })
+  qrCode: string
+
   @OneToMany(() => VoucherMember, (voucherMember) => voucherMember.voucher)
   voucherMembers: VoucherMember[]
 
   @ManyToOne(() => Merchant, (merchant) => merchant.vouchers)
   merchant: Merchant
+
+  @BeforeInsert()
+  setRemainCount() {
+    this.remainCount = this.totalCount
+  }
+
+  @BeforeInsert()
+  async setVoucherCode() {
+    this.voucherCode = Math.random().toString(36).slice(2, 10)
+    this.qrCode = await generateQRCode(this.voucherCode)
+  }
 }

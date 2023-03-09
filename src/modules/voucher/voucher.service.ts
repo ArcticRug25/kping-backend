@@ -5,13 +5,20 @@ import { getVoucherListDto } from './entities/get-voucher-list.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Voucher } from './entities/voucher.entity'
 import { Repository } from 'typeorm'
+import { Merchant } from '../merchant/entities/merchant.entity'
 
 @Injectable()
 export class VoucherService {
-  constructor(@InjectRepository(Voucher) private readonly voucherRepo: Repository<Voucher>) {}
+  constructor(
+    @InjectRepository(Voucher) private readonly voucherRepo: Repository<Voucher>,
+    @InjectRepository(Merchant) private readonly merchantRepo: Repository<Merchant>,
+  ) {}
 
-  create(userId, createVoucherDto: CreateVoucherDto) {
-    return 'This action adds a new voucher'
+  async create(userId: number, createVoucherDto: CreateVoucherDto) {
+    const merchant = await this.merchantRepo.findOneOrFail({ where: { id: userId } })
+    const voucherTpl = await this.voucherRepo.create(createVoucherDto)
+    voucherTpl.merchant = merchant
+    return await this.voucherRepo.save(voucherTpl)
   }
 
   async findAll(userId, query: getVoucherListDto) {
